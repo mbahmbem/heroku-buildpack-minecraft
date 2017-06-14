@@ -3,10 +3,10 @@
 if [ -n "${DROPBOX_API_TOKEN:-""}" ]; then
   if [ -d world ]; then
     echo "OAUTH_ACCESS_TOKEN=${DROPBOX_API_TOKEN}" > ~/.dropbox_uploader
-    ./dropbox_uploader.sh upload world/ minecraft/
+    bin/dropbox_uploader.sh upload world/ minecraft/
   else
     echo "OAUTH_ACCESS_TOKEN=${DROPBOX_API_TOKEN}" > ~/.dropbox_uploader
-    ./dropbox_uploader.sh download minecraft/world
+    bin/dropbox_uploader.sh download minecraft/world
     cd ..
   fi
 fi
