@@ -43,24 +43,18 @@ Server available at: 0.tcp.ngrok.io:17003
 Copy the `0.tcp.ngrok.io:17003` part, and paste it into your local Minecraft app
 as the server name.
 
-## Syncing to S3
+## Syncing to Dropbox
 
 The Heroku filesystem is [ephemeral](https://devcenter.heroku.com/articles/dynos#ephemeral-filesystem),
 which means files written to the file system will be destroyed when the server is restarted.
 
 Minecraft keeps all of the data for the server in flat files on the file system.
-Thus, if you want to keep you world, you'll need to sync it to S3.
-
-First, create an [AWS account](https://aws.amazon.com/) and an S3 bucket. Then configure the bucket
-and your AWS keys like this:
-
+To keep the world data, you can sync it to your dropbox storage by setting dropbox api token:
 ```
-$ heroku config:set AWS_BUCKET=your-bucket-name
-$ heroku config:set AWS_ACCESS_KEY=xxx
-$ heroku config:set AWS_SECRET_KEY=xxx
+$ heroku config:set DROPBOX_API_TOKEN=xxx
 ```
 
-The buildpack will sync your world to the bucket every 60 seconds, but this is configurable by setting the `AWS_SYNC_INTERVAL` config var.
+The buildpack will sync your world to the bucket every 5 minutes, but this is configurable by setting the `DROPBOX_SYNC_INTERVAL` config var.
 
 ## Customizing
 
@@ -77,7 +71,7 @@ $ heroku config:set NGROK_OPTS="-subdomain=my-subdomain"
 You can choose the Minecraft version by setting the MINECRAFT_VERSION like so:
 
 ```
-$ heroku config:set MINECRAFT_VERSION="1.8.3"
+$ heroku config:set MINECRAFT_VERSION="1.11.2"
 ```
 
 You can also configure the server properties by creating a `server.properties`
