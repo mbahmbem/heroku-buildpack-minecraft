@@ -9,5 +9,4 @@ if [ -n "$DROPBOX_API_TOKEN" ]; then
     ./dropbox_uploader.sh download minecraft/world
     cd ..
   fi
-  rm .s3cfg
 fi
