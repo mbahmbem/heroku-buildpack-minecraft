@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 
 
-heroku_url=${HEROKU_URL:-"localhost"}
-curl $heroku_url
+# heroku_url=${HEROKU_URL:-"localhost"}
+# curl $heroku_url
 
 if [ -n "${DROPBOX_API_TOKEN:-""}" ]; then
   if [ -d world ]; then
