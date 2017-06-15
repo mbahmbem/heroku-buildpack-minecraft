@@ -1,11 +1,9 @@
 #!/usr/bin/env bash
 
-
-# heroku_url=${HEROKU_URL:-"localhost"}
-# curl $heroku_url
-
 if [ -n "${DROPBOX_API_TOKEN:-""}" ]; then
   if [ -d world ]; then
+	app_url=${APP_URL:-"localhost"}
+	curl $app_url
     echo "OAUTH_ACCESS_TOKEN=${DROPBOX_API_TOKEN}" > ~/.dropbox_uploader
     bin/dropbox_uploader.sh upload world/ minecraft/
   else
