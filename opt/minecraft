@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 
 mc_port=25565
+rcon_port=25575
 port=${1:-${PORT:-8080}}
 
 if [ -z "$NGROK_API_TOKEN" ]; then
@@ -13,6 +14,7 @@ ngrok_cmd="bin/ngrok tcp -authtoken $NGROK_API_TOKEN -log stdout --log-level deb
 echo "Starting ngrok..."
 eval "while true; do $ngrok_cmd | tee ngrok.log; done &"
 ngrok_pid=$!
+curl -H "Content-Type: application/json" -X POST -d '{"addr":"${rcon_port}","proto":"tcp", "name":"rcon"}' http://localhost:4040/api/tunnels
 
 # Do an inline sync first, then start the background job
 echo "Starting sync..."

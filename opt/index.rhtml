@@ -1,8 +1,20 @@
-<% open('ngrok.log') do |f| %>
-  <% f.lines.select { |line| line.include?("URL:") }.each do |line| %>
-	<center>
-		Server available<br />
-		<%= line.match(/tcp:\/\/(.+:[0-9]+) /)[1] %><br />
-	</center>
+<% require 'net/http' %>
+<% require 'json' %>
+<% if servlet_request.has_key?["rcon"] %>
+  <% JSON.parse(Net::HTTP.get(URI('http://localhost:4040/api/tunnels/rcon'))) do |datajson| %>
+    <center>
+      <% datajson['public_url'] do |url| %>
+        <%= url.match(/tcp:\/\/(.+:[0-9]+) /)[1] %><br />
+      <% end %>
+    </center>
+  <% end %>
+<% else %>
+  <% JSON.parse(Net::HTTP.get(URI('http://localhost:4040/api/tunnels/command_line'))) do |datajson| %>
+    <center>
+      <% datajson['public_url'] do |url| %>
+        Server available<br />
+        <%= url.match(/tcp:\/\/(.+:[0-9]+) /)[1] %><br />
+      <% end %>
+    </center>
   <% end %>
 <% end %>
