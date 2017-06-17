@@ -3,18 +3,16 @@
 <% if servlet_request.has_key?["rcon"] %>
   <% JSON.parse(Net::HTTP.get(URI('http://localhost:4040/api/tunnels/rcon'))) do |datajson| %>
     <center>
-      <% datajson['public_url'] do |url| %>
-        <%= url.match(/tcp:\/\/(.+:[0-9]+) /)[1] %><br />
-      <% end %>
+      <% url = datajson['public_url'] %>
+      <%= url.match(/tcp:\/\/(.+:[0-9]+) /)[1] %><br />
     </center>
   <% end %>
 <% else %>
   <% JSON.parse(Net::HTTP.get(URI('http://localhost:4040/api/tunnels/command_line'))) do |datajson| %>
     <center>
-      <% datajson['public_url'] do |url| %>
-        Server available<br />
-        <%= url.match(/tcp:\/\/(.+:[0-9]+) /)[1] %><br />
-      <% end %>
+      <% url = datajson['public_url'] %>
+      Server available<br />
+      <%= url.match(/tcp:\/\/(.+:[0-9]+) /)[1] %><br />
     </center>
   <% end %>
 <% end %>
