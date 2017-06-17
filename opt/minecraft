@@ -14,7 +14,7 @@ ngrok_cmd="bin/ngrok tcp -authtoken $NGROK_API_TOKEN -log stdout --log-level deb
 echo "Starting ngrok..."
 eval "while true; do $ngrok_cmd | tee ngrok.log; done &"
 ngrok_pid=$!
-curl -H "Content-Type: application/json" -X POST -d '{"addr":"${rcon_port}","proto":"tcp", "name":"rcon"}' http://localhost:4040/api/tunnels
+curl -H "Content-Type: application/json" -X POST -d '{"addr":"${rcon_port}","proto":"tcp", "name":"rcon"}' http://0.0.0.0:4040/api/tunnels
 
 # Do an inline sync first, then start the background job
 echo "Starting sync..."
