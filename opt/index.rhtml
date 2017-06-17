@@ -1,6 +1,6 @@
 <% require 'net/http' %>
 <% require 'json' %>
-<% if servlet_request.has_key?["rcon"] %>
+<% if servlet_request.query.has_key?["rcon"] %>
   <% JSON.parse(Net::HTTP.get(URI('http://localhost:4040/api/tunnels/rcon'))) do |datajson| %>
     <center>
       <% url = datajson['public_url'] %>
