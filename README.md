@@ -37,7 +37,8 @@ This will display the ngrok logs, which will contain the name of the server
 (really it's a proxy, but whatever):
 
 ```
-Server available at: 0.tcp.ngrok.io:17003
+Server available
+0.tcp.ngrok.io:17003
 ```
 
 Copy the `0.tcp.ngrok.io:17003` part, and paste it into your local Minecraft app
@@ -49,12 +50,12 @@ The Heroku filesystem is [ephemeral](https://devcenter.heroku.com/articles/dynos
 which means files written to the file system will be destroyed when the server is restarted.
 
 Minecraft keeps all of the data for the server in flat files on the file system.
-To keep the world data, you can sync it to your dropbox storage by setting dropbox api token:
+To keep the world data, you can sync it to your Dropbox storage by setting Dropbox API token:
 ```
 $ heroku config:set DROPBOX_API_TOKEN=xxx
 ```
 
-The buildpack will sync your world to the bucket every 5 minutes, but this is configurable by setting the `DROPBOX_SYNC_INTERVAL` config var.
+The buildpack will sync your world to Dropbox every 5 minutes, but this is configurable by setting the `DROPBOX_SYNC_INTERVAL` config var.
 
 ## Customizing
 
