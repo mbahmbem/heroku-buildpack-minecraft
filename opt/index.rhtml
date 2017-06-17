@@ -1,19 +1,17 @@
 <% require 'net/http' %>
 <% require 'json' %>
 <% if servlet_request.query.has_key?("rcon") %>
-  <% JSON.parse(Net::HTTP.get(URI('http://0.0.0.0:4040/api/tunnels/rcon'))) do |datajson| %>
+  <% JSON.load(open('http://0.0.0.0:4040/api/tunnels/rcon')) do |datajson| %>
     <center>
       <% url = datajson['public_url'] %>
-	  <%= datajson %>
       <%= url.match(/tcp:\/\/(.+:[0-9]+) /)[1] %><br />
     </center>
   <% end %>
 <% else %>
-  <% JSON.parse(Net::HTTP.get(URI('http://0.0.0.0:4040/api/tunnels/command_line'))) do |datajson| %>
+  <% JSON.load(open('http://0.0.0.0:4040/api/tunnels/command_line')) do |datajson| %>
     <center>
       <% url = datajson['public_url'] %>
       Server available<br />
-	  <%= datajson %>
       <%= url.match(/tcp:\/\/(.+:[0-9]+) /)[1] %><br />
     </center>
   <% end %>
