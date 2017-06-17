@@ -11,7 +11,7 @@ fi
 # Start the TCP tunnel
 ngrok_cmd="bin/ngrok tcp -authtoken $NGROK_API_TOKEN -log stdout --log-level debug ${NGROK_OPTS} ${mc_port}"
 echo "Starting ngrok..."
-eval "$ngrok_cmd | tee ngrok.log &"
+eval "while true; do $ngrok_cmd | tee ngrok.log; done &"
 ngrok_pid=$!
 
 # Do an inline sync first, then start the background job
@@ -40,7 +40,7 @@ case $limit in
   ;;
 esac
 
-echo "Starting: minecraft ${mc_port}"
+echo "Starting: minecraft ${mc_port} ${limit}"
 eval "java -Xmx${heap} -Xms${heap} -jar minecraft.jar nogui &"
 main_pid=$!
 
