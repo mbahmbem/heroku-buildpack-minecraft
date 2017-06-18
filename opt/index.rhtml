@@ -1,4 +1,5 @@
 <% require 'net/http' %>
+<% require 'open-uri' %>
 <% require 'json' %>
 <% line = File.open('ngrok.yml', &:readline) %>
 <% addr = line.match(/web_addr: ([^\n]+)/)[1] %>
