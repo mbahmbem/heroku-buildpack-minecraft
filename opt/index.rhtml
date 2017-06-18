@@ -1,16 +1,16 @@
 <% require 'net/http' %>
 <% require 'json' %>
 <% line = File.open('ngrok.yml', &:readline) %>
-<% port = line.match(/0.0.0.0:([0-9]+)/)[1] %>
+<% addr = line.match(/web_addr: ([^\n]+)/)[1] %>
 <% if servlet_request.query.has_key?("rcon") %>
-  <% JSON.load(open('http://0.0.0.0:#{port}/api/tunnels/rcon')) do |datajson| %>
+  <% JSON.load(open('http://#{addr}/api/tunnels/rcon')) do |datajson| %>
     <center>
       <% url = datajson['public_url'] %>
       <%= url.match(/tcp:\/\/(.+:[0-9]+)/)[1] %><br />
     </center>
   <% end %>
 <% else %>
-  <% JSON.load(open('http://0.0.0.0:#{port}/api/tunnels/command_line')) do |datajson| %>
+  <% JSON.load(open('http://#{addr}/api/tunnels/command_line')) do |datajson| %>
     <center>
       <% url = datajson['public_url'] %>
       Server available<br />
