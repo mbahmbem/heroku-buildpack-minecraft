@@ -7,6 +7,7 @@
   <% JSON.load(open("http://" + addr + "/api/tunnels/rcon")) do |datajson| %>
     <center>
       <% url = datajson['public_url'] %>
+	  <%= datajson %>
       <%= url.match(/tcp:\/\/(.+:[0-9]+)/)[1] %><br />
     </center>
   <% end %>
@@ -15,6 +16,7 @@
     <center>
       <% url = datajson['public_url'] %>
       Server available<br />
+	  <%= datajson %>
       <%= url.match(/tcp:\/\/(.+:[0-9]+)/)[1] %><br />
     </center>
   <% end %>
