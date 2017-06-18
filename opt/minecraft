@@ -47,7 +47,7 @@ main_pid=$!
 
 #Start rcon tunnel
 addr=$(grep -oP '(?<=web_addr: )[^\n]+' ngrok.yml | tr -d '\n')
-curl -H "Content-Type: application/json" -X POST -d '{"addr":${rcon_port},"proto":"tcp", "name":"rcon"}' "http://${addr}/api/tunnels"
+curl -H "Content-Type: application/json" -X POST -d '{"addr":'$rcon_port',"proto":"tcp", "name":"rcon"}' "http://${addr}/api/tunnels"
 
 trap "kill $ngrok_pid $main_pid $sync_pid; bin/sync" SIGTERM
 trap "kill -9 $ngrok_pid $main_pid $sync_pid; bin/sync; exit" SIGKILL
