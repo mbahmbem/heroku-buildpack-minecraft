@@ -10,11 +10,9 @@ if [ -z "$NGROK_API_TOKEN" ]; then
 fi
 
 # Start the TCP tunnel
-echo "web_addr: 0.0.0.0:25570" > "ngrok.yml"
-
 ngrok_cmd="bin/ngrok tcp -authtoken $NGROK_API_TOKEN -config ngrok.yml -log stdout --log-level debug ${NGROK_OPTS} ${mc_port}"
 echo "Starting ngrok..."
-eval "while true; do $ngrok_cmd | tee ngrok.log; done &"
+eval "while true; do echo \"web_addr: 0.0.0.0:\$PORT\" > \"ngrok.yml\"; $ngrok_cmd | tee ngrok.log; curl -H \"Content-Type: application/json\" -X POST -d '{\"addr\":\"${rcon_port}\",\"proto\":\"tcp\", \"name\":\"rcon\"}' http://0.0.0.0:\$PORT/api/tunnels; done &"
 ngrok_pid=$!
 
 # Do an inline sync first, then start the background job
@@ -48,7 +46,6 @@ eval "java -Xmx${heap} -Xms${heap} -jar minecraft.jar nogui &"
 main_pid=$!
 
 #Start rcon tunnel
-curl -H "Content-Type: application/json" -X POST -d '{"addr":"${rcon_port}","proto":"tcp", "name":"rcon"}' http://0.0.0.0:25570/api/tunnels
 
 trap "kill $ngrok_pid $main_pid $sync_pid; bin/sync" SIGTERM
 trap "kill -9 $ngrok_pid $main_pid $sync_pid; bin/sync; exit" SIGKILL
