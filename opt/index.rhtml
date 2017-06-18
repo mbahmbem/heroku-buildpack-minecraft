@@ -4,18 +4,18 @@
 <% line = File.open('ngrok.yml', &:readline) %>
 <% addr = line.match(/web_addr: ([^\n]+)/)[1] %>
 <% if servlet_request.query.has_key?("rcon") %>
-  <% JSON.load(open("http://" + addr + "/api/tunnels/rcon", "Content-Type" => "application/json")) do |datajson| %>
+  <% open("http://" + addr + "/api/tunnels/rcon", "Content-Type" => "application/json") do |urlreader| %>
     <center>
-	  <%= datajson %>
-      <% url = datajson['public_url'] %>
+	  <%= data = urlreader.read %>
+      <% url = JSON.parse(data)['public_url'] %>
       <%= url.match(/tcp:\/\/(.+:[0-9]+)/)[1] %><br />
     </center>
   <% end %>
 <% else %>
-  <% JSON.load(open("http://" + addr + "/api/tunnels/command_line", "Content-Type" => "application/json")) do |datajson| %>
+  <% open("http://" + addr + "/api/tunnels/command_line", "Content-Type" => "application/json") do |urlreader| %>
     <center>
-	  <%= datajson %>
-      <% url = datajson['public_url'] %>
+	  <%= data = urlreader.read %>
+      <% url = JSON.parse(data)['public_url'] %>
       Server available<br />
       <%= url.match(/tcp:\/\/(.+:[0-9]+)/)[1] %><br />
     </center>
