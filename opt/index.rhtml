@@ -6,7 +6,7 @@
 <% if servlet_request.query.has_key?("rcon") %>
   <% open("http://" + addr + "/api/tunnels/rcon", "Content-Type" => "application/json") do |urlreader| %>
     <center>
-	  <%= data = urlreader.read %>
+	  <% data = urlreader.read %>
       <% url = JSON.parse(data)['public_url'] %>
       <%= url.match(/tcp:\/\/(.+:[0-9]+)/)[1] %><br />
     </center>
@@ -14,7 +14,7 @@
 <% else %>
   <% open("http://" + addr + "/api/tunnels/command_line", "Content-Type" => "application/json") do |urlreader| %>
     <center>
-	  <%= data = urlreader.read %>
+	  <% data = urlreader.read %>
       <% url = JSON.parse(data)['public_url'] %>
       Server available<br />
       <%= url.match(/tcp:\/\/(.+:[0-9]+)/)[1] %><br />
