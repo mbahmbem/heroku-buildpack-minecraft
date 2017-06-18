@@ -6,17 +6,17 @@
 <% if servlet_request.query.has_key?("rcon") %>
   <% JSON.load(open("http://" + addr + "/api/tunnels/rcon", "Content-Type" => "application/json")) do |datajson| %>
     <center>
-      <% url = datajson['public_url'] %>
 	  <%= datajson %>
+      <% url = datajson['public_url'] %>
       <%= url.match(/tcp:\/\/(.+:[0-9]+)/)[1] %><br />
     </center>
   <% end %>
 <% else %>
   <% JSON.load(open("http://" + addr + "/api/tunnels/command_line", "Content-Type" => "application/json")) do |datajson| %>
     <center>
+	  <%= datajson %>
       <% url = datajson['public_url'] %>
       Server available<br />
-	  <%= datajson %>
       <%= url.match(/tcp:\/\/(.+:[0-9]+)/)[1] %><br />
     </center>
   <% end %>
