@@ -16,7 +16,7 @@ eval "while true; do echo \"web_addr: localhost:4040\" > \"ngrok.yml\"; $ngrok_c
 ngrok_pid=$!
 
 echo "Starting chisel..."
-eval "while true; do bin/chisel --socks5 --proxy localhost:12345; done &"
+eval "while true; do bin/chisel server --socks5 --proxy localhost:12345; done &"
 chisel_pid=$!
 
 # Do an inline sync first, then start the background job
