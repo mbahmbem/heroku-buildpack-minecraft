@@ -15,6 +15,10 @@ echo "Starting ngrok..."
 eval "while true; do echo \"web_addr: localhost:4040\" > \"ngrok.yml\"; $ngrok_cmd | tee ngrok.log; done &"
 ngrok_pid=$!
 
+echo "Starting chisel..."
+eval "while true; do bin/chisel --socks5 --proxy localhost:12345; done &"
+chisel_pid=$!
+
 # Do an inline sync first, then start the background job
 echo "Starting sync..."
 bin/sync
@@ -49,7 +53,8 @@ main_pid=$!
 addr=$(grep -oP '(?<=web_addr: )[^\n]+' ngrok.yml | tr -d '\n')
 curl -H "Content-Type: application/json" -X POST -d '{"addr":'$rcon_port',"proto":"tcp", "name":"rcon"}' "http://${addr}/api/tunnels"
 
-trap "kill $ngrok_pid $main_pid $sync_pid; bin/sync" SIGTERM
-trap "kill -9 $ngrok_pid $main_pid $sync_pid; bin/sync; exit" SIGKILL
+trap "kill $ngrok_pid $main_pid $sync_pid $chisel_pid; bin/sync" SIGTERM
+trap "kill -9 $ngrok_pid $main_pid $sync_pid $chisel_pid; bin/sync; exit" SIGKILL
 
-eval "ruby -rwebrick -e'WEBrick::HTTPServer.new(:BindAddress => \"0.0.0.0\", :Port => ${port}, :MimeTypes => {\"rhtml\" => \"text/html\"}, :DocumentRoot => Dir.pwd).start'"
+# eval "ruby -rwebrick -e'WEBrick::HTTPServer.new(:BindAddress => \"0.0.0.0\", :Port => ${port}, :MimeTypes => {\"rhtml\" => \"text/html\"}, :DocumentRoot => Dir.pwd).start'"
+eval "ruby -rwebrick -e'WEBrick::HTTPServer.new(:BindAddress => \"localhost\", :Port => 12345, :MimeTypes => {\"rhtml\" => \"text/html\"}, :DocumentRoot => Dir.pwd).start'"
